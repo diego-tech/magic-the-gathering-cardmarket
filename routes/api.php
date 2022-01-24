@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\CollectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// User Routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/retrieve_password', [AuthController::class, 'retrieve_password']);
+
+// Card Routes
+Route::post('/registerCard', [CardController::class, 'registerCard']);
+
+// Collection Routes
+Route::post('/registerCollection', [CollectionController::class, 'registerCollection']);
