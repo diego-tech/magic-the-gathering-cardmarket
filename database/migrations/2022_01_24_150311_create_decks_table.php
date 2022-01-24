@@ -15,6 +15,8 @@ class CreateDecksTable extends Migration
     {
         Schema::create('decks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('card_id')->constrained();
+            $table->foreignId('collection_id')->constrained();
             $table->timestamps();
         });
     }
