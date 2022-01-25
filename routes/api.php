@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\DeckController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,6 @@ Route::post('/registerCard', [CardController::class, 'registerCard']);
 
 // Collection Routes
 Route::post('/registerCollection', [CollectionController::class, 'registerCollection']);
+
+// Deck Routes
+Route::post('/addCardsToCollections', [DeckController::class, 'addCardsToCollections']);
