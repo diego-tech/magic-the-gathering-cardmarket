@@ -25,7 +25,7 @@ class CardController extends Controller
                 [
                     'name' => 'required|string|max:255',
                     'description' => 'required|string|max:255',
-                    'collection' => 'required|int|exists:collections,id'
+                    'collection' => 'required|int|exists:decks,collection_id'
                 ]
             );
 
@@ -41,7 +41,7 @@ class CardController extends Controller
 
                     $card->name = $data->name;
                     $card->description = $data->description;
-                    $card->collection = $data->collection;
+                    
                     $card->save();
 
                     $response['status'] = 1;

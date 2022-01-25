@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\Collection;
+use App\Models\Deck;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +29,6 @@ class CollectionController extends Controller
                 [
                     'name' => 'required|string|max:255',
                     'symbol' => 'required|string|max:255',
-                    'edition_date' => 'required|datetime|max:255'
                 ]
             );
 
@@ -40,13 +41,26 @@ class CollectionController extends Controller
 
                     return response()->json($response, 400);
                 } else {
+                    // Create Collection
+                    $dateNow = new DateTime('now');
                     $collection = new Collection();
 
                     $collection->name = $data->name;
                     $collection->symbol = $data->symbol;
-                    $collection->edition_date = $data->edition_date;
+                    $collection->edition_date = $dateNow;
                     $collection->save();
+
+                    // Generate Default Collection Card
                     $card = new Card();
+                    $card->name = $data->name;
+                    $card->description = "";
+                    $card->save();
+
+                    // Deck
+                    $deck = new Deck();
+                    $deck->card_id = $card->id;
+                    $deck->collection_id = $collection->id;
+                    $deck->save();
                 }
             } catch (\Exception $e) {
                 $response['status'] = 0;
