@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DeckController;
+use App\Http\Controllers\SaleController;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +37,15 @@ Route::post('/registerCollection', [CollectionController::class, 'registerCollec
 
 // Deck Routes
 Route::post('/addCardsToCollections', [DeckController::class, 'addCardsToCollections']);
+
+// Sale Routes
+Route::post('/saleCard', [SaleController::class, 'saleCard']);
+Route::get('/searchEngine', [SaleController::class, 'searchEngine']);
+
+
+/**
+ * MIDDLEWARE NAMES
+ * checkifadminuser
+ * checkifadminnotuser
+ * auth:sanctum
+ */

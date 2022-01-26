@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Card;
 use App\Models\Deck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

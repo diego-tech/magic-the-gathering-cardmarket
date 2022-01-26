@@ -24,43 +24,76 @@ class CollectionController extends Controller
         $data = $request->getContent();
 
         if (isset($data)) {
-            $validator = Validator::make(
+            $collectionValidator = Validator::make(
                 json_decode($data, true),
                 [
                     'name' => 'required|string|max:255',
                     'symbol' => 'required|string|max:255',
+                    'card_id' => 'nullable|int|exists:cards,id'
+                ]
+            );
+
+            $cardValidator = Validator::make(
+                json_decode($data, true),
+                [
+                    'cardName' => 'required|string|max:255',
+                    'cardDescription' => 'required|string|max:255',
                 ]
             );
 
             $data = json_decode($data);
 
             try {
-                if ($validator->fails()) {
-                    $response['status'] = 0;
-                    $response['msg'] = "Ha ocurrido un error: " . $validator->errors();
+                if (!isset($data->card_id)) {
+                    if ($cardValidator->fails() || $collectionValidator->fails()) {
+                        $response['status'] = 0;
+                        $response['msg'] = "Ha ocurrido un error: " . $collectionValidator->errors() . $cardValidator->errors();
 
-                    return response()->json($response, 400);
+                        return response()->json($response, 400);
+                    } else {
+                        // Create Collection
+                        $dateNow = new DateTime('now');
+                        $collection = new Collection();
+
+                        $collection->name = $data->name;
+                        $collection->symbol = $data->symbol;
+                        $collection->edition_date = $dateNow;
+                        $collection->save();
+
+                        // Generate Default Collection Card
+                        $card = new Card();
+                        $card->name = $data->cardName;
+                        $card->description = $data->cardDescription;
+                        $card->save();
+
+                        // Deck
+                        $deck = new Deck();
+                        $deck->card_id = $card->id;
+                        $deck->collection_id = $collection->id;
+                        $deck->save();
+                    }
                 } else {
-                    // Create Collection
-                    $dateNow = new DateTime('now');
-                    $collection = new Collection();
+                    if ($collectionValidator->fails()) {
+                        $response['status'] = 0;
+                        $response['msg'] = "Ha ocurrido un error: " . $collectionValidator->errors();
 
-                    $collection->name = $data->name;
-                    $collection->symbol = $data->symbol;
-                    $collection->edition_date = $dateNow;
-                    $collection->save();
+                        return response()->json($response, 400);
+                    } else {
+                        // Create Collection
+                        $dateNow = new DateTime('now');
+                        $collection = new Collection();
 
-                    // Generate Default Collection Card
-                    $card = new Card();
-                    $card->name = $data->name;
-                    $card->description = "";
-                    $card->save();
+                        $collection->name = $data->name;
+                        $collection->symbol = $data->symbol;
+                        $collection->edition_date = $dateNow;
+                        $collection->save();
 
-                    // Deck
-                    $deck = new Deck();
-                    $deck->card_id = $card->id;
-                    $deck->collection_id = $collection->id;
-                    $deck->save();
+                        // Deck
+                        $deck = new Deck();
+                        $deck->card_id = $data->card_id;
+                        $deck->collection_id = $collection->id;
+                        $deck->save();
+                    }
                 }
             } catch (\Exception $e) {
                 $response['status'] = 0;
