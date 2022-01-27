@@ -14,6 +14,7 @@ class SaleController extends Controller
         $response = ["status" => 0, "data" => [], "msg" => ""];
 
         $data = $request->getContent();
+        $user = $request->user();
 
         if (isset($data)) {
             $validator = Validator::make(
@@ -21,7 +22,7 @@ class SaleController extends Controller
                 [
                     'card_id' => 'required|int|exists:cards,id',
                     'number_of_cards' => 'required|int',
-                    'price' => 'required|double'
+                    'price' => 'required|numeric'
                 ]
             );
 
@@ -36,6 +37,7 @@ class SaleController extends Controller
                 } else {
                     // Create Sale
                     $sale = new Sale();
+                    $sale->user_id = $user->id;
                     $sale->card_id = $data->card_id;
                     $sale->number_of_cards = $data->number_of_cards;
                     $sale->price = $data->price;
@@ -56,24 +58,39 @@ class SaleController extends Controller
     {
         $response = ["status" => 0, "data" => [], "msg" => ""];
 
-        $data = $request->getContent();
-        $data = json_decode($data);
+        $query = DB::table('cards')
+            ->select('name', 'id')
+            ->where('name', 'like', '%' . $request->input('search') . '%')
+            ->get();
 
-        if (isset($data)) {
-            $query = DB::table('cards')
-                ->select('name', 'id')
-                ->where('name', 'like', '%' . $data->search . '%')
-                ->get();
+        $response['data'] = $query;
 
-            $response['data'] = $query;
-        }
 
         return response()->json($response);
     }
 
-    public function getSales(Request $request) {
+    public function purchaseManagement(Request $request)
+    {
         $response = ["status" => 0, "data" => [], "msg" => ""];
 
-        
+        $data = $request->getContent();
+        $data = json_decode($data);
+
+        $query = DB::table('sales')
+            ->join('cards', 'card_id', 'cards.id')
+            ->join('users', 'user_id', 'users.id')
+            ->select(
+                'cards.name as CardName',
+                'number_of_cards',
+                'price',
+                'users.name as UserName'
+            )
+            ->where('cards.name', 'like', '%' . $request->input('search') . '%')
+            ->orderBy('price', 'asc')
+            ->get();
+
+        $response['msg'] = $query;
+
+        return $response;
     }
 }

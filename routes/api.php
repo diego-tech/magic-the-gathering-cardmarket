@@ -20,32 +20,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // User Routes
 Route::post('/register', [AuthController::class, 'registerUser']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/retrieve_password', [AuthController::class, 'retrieve_password']);
 
-// Card Routes
-Route::post('/registerCard', [CardController::class, 'registerCard']);
+Route::middleware(['auth:sanctum', 'checkifadminuser'])->group(function () {
+    // Card Routes
+    Route::post('/registerCard', [CardController::class, 'registerCard']);
 
-// Collection Routes
-Route::post('/registerCollection', [CollectionController::class, 'registerCollection']);
+    // Collection Routes
+    Route::post('/registerCollection', [CollectionController::class, 'registerCollection']);
 
-// Deck Routes
-Route::post('/addCardsToCollections', [DeckController::class, 'addCardsToCollections']);
+    // Deck Routes
+    Route::post('/addCardsToCollections', [DeckController::class, 'addCardsToCollections']);
+});
 
-// Sale Routes
-Route::post('/saleCard', [SaleController::class, 'saleCard']);
-Route::get('/searchEngine', [SaleController::class, 'searchEngine']);
+Route::middleware(['auth:sanctum', 'checkifadminnotuser'])->group(function () {
+    // Sale Routes
+    Route::post('/saleCard', [SaleController::class, 'saleCard']);
+    Route::get('/searchEngine', [SaleController::class, 'searchEngine']);
+});
 
-
-/**
- * MIDDLEWARE NAMES
- * checkifadminuser
- * checkifadminnotuser
- * auth:sanctum
- */
+Route::get('/purchaseManagement', [SaleController::class, 'purchaseManagement']);
