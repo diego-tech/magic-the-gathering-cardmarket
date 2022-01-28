@@ -22,6 +22,7 @@ class CardController extends Controller
         $response = ["status" => 0, "data" => [], "msg" => ""];
 
         $data = $request->getContent();
+
         if (isset($data)) {
             $validator = Validator::make(
                 json_decode($data, true),
@@ -29,6 +30,12 @@ class CardController extends Controller
                     'name' => 'required|string|max:255',
                     'description' => 'required|string|max:255',
                     'collection' => 'required|int|exists:decks,collection_id'
+                ],
+                [
+                    'name.required' => 'Nombre de Carta Obligatorio',
+                    'description.required' => 'Descripción de Carta Obligatoria',
+                    'collection.required' => 'Colección Obligatoria',
+                    'collection.exists' => 'La Colleción Seleccionada No Existe'
                 ]
             );
 
@@ -37,7 +44,8 @@ class CardController extends Controller
             try {
                 if ($validator->fails()) {
                     $response['status'] = 0;
-                    $response['msg'] = "Ha ocurrido un error: " . $validator->errors();
+                    $response['data']['errors'] = $validator->errors();
+                    $response['msg'] = "Ha ocurrido un error.";
 
                     return response()->json($response, 400);
                 } else {

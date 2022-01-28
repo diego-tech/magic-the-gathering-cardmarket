@@ -30,6 +30,11 @@ class CollectionController extends Controller
                     'name' => 'required|string|max:255',
                     'symbol' => 'required|string|max:255',
                     'card_id' => 'nullable|int|exists:cards,id'
+                ],
+                [
+                    'name.required' => 'Nombre de Colección Obligatorio',
+                    'symbol.required' => 'Imagen de Colección Obligatoria',
+                    'card_id.exists' => 'La Carta Seleccionada No Existe'
                 ]
             );
 
@@ -38,6 +43,10 @@ class CollectionController extends Controller
                 [
                     'cardName' => 'required|string|max:255',
                     'cardDescription' => 'required|string|max:255',
+                ],
+                [
+                    'cardName.required' => 'Nombre de Carta Obligatorio',
+                    'cardDescription.required' => 'Descripción de Carta Obligatoria'
                 ]
             );
 
@@ -47,7 +56,9 @@ class CollectionController extends Controller
                 if (!isset($data->card_id)) {
                     if ($cardValidator->fails() || $collectionValidator->fails()) {
                         $response['status'] = 0;
-                        $response['msg'] = "Ha ocurrido un error: " . $collectionValidator->errors() . $cardValidator->errors();
+                        $response['data']['errors'] = $collectionValidator->errors();
+                        $response['data']['errors'] = $cardValidator->errors();
+                        $response['msg'] = "Ha ocurrido un error.";
 
                         return response()->json($response, 400);
                     } else {
@@ -75,7 +86,8 @@ class CollectionController extends Controller
                 } else {
                     if ($collectionValidator->fails()) {
                         $response['status'] = 0;
-                        $response['msg'] = "Ha ocurrido un error: " . $collectionValidator->errors();
+                        $response['data']['errors'] = $collectionValidator->errors();
+                        $response['msg'] = "Ha ocurrido un error.";
 
                         return response()->json($response, 400);
                     } else {

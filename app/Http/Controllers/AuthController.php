@@ -20,7 +20,7 @@ class AuthController extends Controller
      */
     public function registerUser(Request $request)
     {
-        $response = ['status' => 0, 'data' => [], 'msg' => ''];
+        $response = ["status" => 0, "data" => [], "msg" => ""];
 
         $data = $request->getContent();
 
@@ -80,22 +80,40 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('name', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid login details'
-            ], 401);
+        $response = ["status" => 0, "data" => [], "msg" => ""];
+
+        $credentials = $request->only('name', 'password');
+
+        $user = User::where('name', $request['name'])->first();
+
+        try {
+            if ($user) {
+                if (!Auth::attempt($credentials)) {
+                    $response['status'] = 0;
+                    $response['msg'] = "Nombre o Contraseña incorrectos";
+
+                    return response()->json($response, 401);
+                } else {
+                    $user->tokens()->delete();
+                    $token = $user->createToken('auth_token')->plainTextToken;
+
+                    $response['status'] = 1;
+                    $response['msg'] = $token;
+
+                    return response()->json($response, 200);
+                }
+            } else {
+                $response['status'] = 0;
+                $response['msg'] = "Usuario No Registrado";
+
+                return response()->json($response, 404);
+            }
+        } catch (\Exception $e) {
+            $response['msg'] = (env('APP_DEBUG') == "true" ? $e->getMessage() : $this->error);
+            $response['status'] = 0;
+
+            return response()->json($response, 500);
         }
-
-        $user = User::where('name', $request['name'])->firstOrFail();
-
-        $user->tokens()->delete();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ]);
     }
 
     /**

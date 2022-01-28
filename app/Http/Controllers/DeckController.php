@@ -27,6 +27,12 @@ class DeckController extends Controller
                 [
                     'card_id' => 'required|int|exists:cards,id',
                     'collection_id' => 'required|int|exists:collections,id'
+                ],
+                [
+                    'card_id.required' => 'Seleccione una Carta',
+                    'card_id.exists' => 'La Carta Seleccionada No Existe',
+                    'collection_id.required' => 'Seleccione una Colleción',
+                    'collection_id.exists' => 'La Colleción Seleccionada No Existe'
                 ]
             );
 
@@ -35,7 +41,8 @@ class DeckController extends Controller
             try {
                 if ($validator->fails()) {
                     $response['status'] = 0;
-                    $response['msg'] = "Ha ocurrido un error: " . $validator->errors();
+                    $response['data']['errors'] = $validator->errors();
+                    $response['msg'] = "Ha ocurrido un error.";
 
                     return response()->json($response, 400);
                 } else {
@@ -43,7 +50,7 @@ class DeckController extends Controller
                         ->where('card_id', $data->card_id)
                         ->where('collection_id', $data->collection_id)
                         ->value('id');
-                        
+
                     if ($cardQuery) {
                         $response['status'] = 0;
                         $response['msg'] = "Carta ya Asociada";
