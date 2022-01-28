@@ -82,6 +82,11 @@ class CollectionController extends Controller
                         $deck->card_id = $card->id;
                         $deck->collection_id = $collection->id;
                         $deck->save();
+
+                        $response['status'] = 1;
+                        $response['msg'] = "Colección Creada Correctamente";
+
+                        return response()->json($response, 200);
                     }
                 } else {
                     if ($collectionValidator->fails()) {
@@ -105,6 +110,11 @@ class CollectionController extends Controller
                         $deck->card_id = $data->card_id;
                         $deck->collection_id = $collection->id;
                         $deck->save();
+
+                        $response['status'] = 1;
+                        $response['msg'] = "Colección Creada Correctamente";
+
+                        return response()->json($response, 200);
                     }
                 }
             } catch (\Exception $e) {
