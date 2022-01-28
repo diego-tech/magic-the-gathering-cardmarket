@@ -89,7 +89,10 @@ class SaleController extends Controller
                 $search = $data->search;
 
                 $query = DB::table('cards')
-                    ->select('name', 'id')
+                    ->select(
+                        'id as CardId',
+                        'name as CardName' 
+                        )
                     ->where('name', 'like', '%' . $search . '%')
                     ->get();
 
@@ -134,6 +137,7 @@ class SaleController extends Controller
                     ->join('cards', 'card_id', 'cards.id')
                     ->join('users', 'user_id', 'users.id')
                     ->select(
+                        'cards.id as CardId',
                         'cards.name as CardName',
                         'number_of_cards',
                         'price',
