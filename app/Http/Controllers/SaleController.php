@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SaleController extends Controller
@@ -91,26 +92,33 @@ class SaleController extends Controller
                 $query = DB::table('cards')
                     ->select(
                         'id as CardId',
-                        'name as CardName' 
-                        )
+                        'name as CardName'
+                    )
                     ->where('name', 'like', '%' . $search . '%')
                     ->get();
+
+                // if ($query->isEmpty()) {
+                //     print("HOLA");
+                // }
 
                 $response['status'] = 1;
                 $response['data'] = $query;
                 $response['msg'] = "Búsqueda";
 
+                Log::alert("Búsqueda Correcta");
                 return response()->json($response, 200);
             } else {
                 $response['status'] = 0;
                 $response['msg'] = "Introduzca Datos";
 
+                Log::alert("Faltan Datos");
                 return response()->json($response, 400);
             }
         } catch (\Exception $e) {
             $response['status'] = 0;
             $response['msg'] = (env('APP_DEBUG') == "true" ? $e->getMessage() : $this->error);
 
+            Log::alert("Fatal Error");
             return response()->json($response, 500);
         }
     }

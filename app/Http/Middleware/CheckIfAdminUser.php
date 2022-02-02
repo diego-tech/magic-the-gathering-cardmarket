@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CheckIfAdminUser
 {
@@ -32,6 +33,7 @@ class CheckIfAdminUser
                 $response['msg'] = "No tienes los permisos suficientes";
                 $response['status'] = 0;
 
+                Log::alert("Sin Permisos");
                 return response()->json($response, 500);
             }
         }
