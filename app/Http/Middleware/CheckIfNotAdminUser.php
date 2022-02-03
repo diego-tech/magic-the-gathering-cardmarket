@@ -25,15 +25,18 @@ class CheckIfNotAdminUser
             $response['msg'] = "Usuario No Existe";
             $response['status'] = 0;
 
+            Log::debug("No Existe el Usuario");
             return response()->json($response, 500);
         } else {
             if($user->roles == "Administrador") {
                 $response['msg'] = "No tienes los permisos suficientes";
                 $response['status'] = 0;
 
-                Log::alert("Sin Permisos");
+                Log::debug("Sin Permisos");
                 return response()->json($response, 500);
             } else {
+
+                Log::debug("Con Permisos");
                 return $next($request);
             }
         }

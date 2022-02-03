@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Log;
 
 class Authenticate extends Middleware
 {
@@ -14,8 +15,17 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             return route('login');
         }
+    }
+
+    protected function unauthenticated($request, array $guards)
+    {
+        Log::debug('Error: Usuario No Autenticado');
+        abort(response()->json([
+            'status' => 0,
+            'msg' => 'Usuario No Autenticado',
+        ], 401));
     }
 }

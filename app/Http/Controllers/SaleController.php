@@ -97,28 +97,33 @@ class SaleController extends Controller
                     ->where('name', 'like', '%' . $search . '%')
                     ->get();
 
-                // if ($query->isEmpty()) {
-                //     print("HOLA");
-                // }
+                if ($query->isEmpty()) {
+                    $response['status'] = 0;
+                    $response['data'] = "";
+                    $response['msg'] = "No se han encontrado coincidencias";
 
-                $response['status'] = 1;
-                $response['data'] = $query;
-                $response['msg'] = "Búsqueda";
-
-                Log::alert("Búsqueda Correcta");
-                return response()->json($response, 200);
+                    Log::debug("Búsqueda No Realizada");
+                    return response()->json($response, 400);
+                } else {
+                    $response['status'] = 1;
+                    $response['data'] = $query;
+                    $response['msg'] = "Búsqueda";
+    
+                    Log::debug("Búsqueda Realizada");
+                    return response()->json($response, 200);
+                }
             } else {
                 $response['status'] = 0;
                 $response['msg'] = "Introduzca Datos";
 
-                Log::alert("Faltan Datos");
+                Log::debug("Faltan Datos");
                 return response()->json($response, 400);
             }
         } catch (\Exception $e) {
             $response['status'] = 0;
             $response['msg'] = (env('APP_DEBUG') == "true" ? $e->getMessage() : $this->error);
 
-            Log::alert("Fatal Error");
+            Log::debug("Fatal Error");
             return response()->json($response, 500);
         }
     }
