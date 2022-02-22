@@ -26,7 +26,9 @@ class CardRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
+            'description' => 'required|max:255',
+            'collections' => 'required|exists:card_collection,collection_id'
         ];
     }
 

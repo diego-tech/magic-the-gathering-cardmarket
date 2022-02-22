@@ -39,11 +39,8 @@ class CardCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
-        CRUD::column('name');
-        CRUD::column('description');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        // Columnas Lista
+        $this->addColumns();
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -81,6 +78,9 @@ class CardCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
+    /**
+     *  Fields for the list of cards
+     */
     private function addFields()
     {
         $this->crud->addFields([
@@ -91,18 +91,55 @@ class CardCrudController extends CrudController
             [
                 'name' => 'description',
                 'label' => 'Descripción',
-                'type' => 'textarea'
+                'type' => 'textarea',
+                'attributes' => [
+                    'rows' => 10,
+                    'cols' => 10
+                ]
             ],
             [
-                'label'     => "Coleciones",
+                'label'     => "Colecciones",
                 'type'      => 'select_multiple',
                 'name'      => 'collections', // the method that defines the relationship in your Model
 
                 // optional
-                'entity'    => 'collections', // the method that defines the relationship in your Model
-                'model'     => "App\Models\Collection", // foreign key model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'entity'    => 'collections',
+                'model'     => "App\Models\Collection",
+                'attribute' => 'name',
                 'pivot'     => true,
+            ]
+        ]);
+    }
+
+    /**
+     *  Fields to card list
+     */
+    private function addColumns()
+    {
+        $this->crud->addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Nombre'
+            ],
+            [
+                'name' => 'description',
+                'label' => 'Descripción'
+            ],
+            [
+                'name' => 'collections',
+                'label' => 'Colecciones Asociadas',
+                'entity'    => 'collections',
+                'model'     => "App\Models\Collection",
+                'attribute' => 'name',
+                'pivot'     => true,
+            ],
+            [
+                'name' => 'created_at',
+                'label' => 'Creado el:'
+            ],
+            [
+                'name' => 'updated_at',
+                'label' => 'Actualizado el:'
             ]
         ]);
     }
