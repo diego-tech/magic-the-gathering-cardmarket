@@ -13,7 +13,7 @@ class CreateDecksTable extends Migration
      */
     public function up()
     {
-        Schema::create('decks', function (Blueprint $table) {
+        Schema::create('card_collection', function (Blueprint $table) {
             $table->id();
             $table->foreignId('card_id')->constrained();
             $table->foreignId('collection_id')->constrained();
