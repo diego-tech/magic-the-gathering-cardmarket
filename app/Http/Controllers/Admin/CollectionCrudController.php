@@ -46,6 +46,9 @@ class CollectionCrudController extends CrudController
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
+        $this->crud->removeButton('create');
+        $this->crud->removeButton('update');
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -70,6 +73,8 @@ class CollectionCrudController extends CrudController
         CRUD::field('created_at');
         CRUD::field('updated_at');
 
+        $this->crud->denyAccess('create');
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -86,5 +91,7 @@ class CollectionCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
+        $this->crud->denyAccess('update');
     }
 }
