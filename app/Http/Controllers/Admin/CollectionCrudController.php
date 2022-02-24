@@ -39,13 +39,7 @@ class CollectionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
-        CRUD::column('name');
-        CRUD::column('symbol');
-        CRUD::column('edition_date');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
-
+        $this->addColumns();
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
 
@@ -93,5 +87,22 @@ class CollectionCrudController extends CrudController
         $this->setupCreateOperation();
 
         $this->crud->denyAccess('update');
+    }
+
+    private function addColumns() {
+        $this->crud->addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Nombre'
+            ],
+            [
+                'name' => 'symbol',
+                'label' => 'Símbolo'
+            ],
+            [
+                'name' => 'edition_date',
+                'label' => 'Fecha de Edición'
+            ]
+        ]);
     }
 }
