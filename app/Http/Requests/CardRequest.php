@@ -26,9 +26,9 @@ class CardRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:255',
+            'name' => 'required|max:255',
             'description' => 'required|max:255',
-            'collections' => 'required|exists:card_collection,collection_id'
+            'collections' => 'required'
         ];
     }
 
@@ -52,7 +52,11 @@ class CardRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Introduzca un Nombre',
+            'name.max' => 'El nombre es demasiado largo',
+            'description.required' => 'Introduzca una Descripción',
+            'description.required' => 'La descripción es demasiado larga',
+            'collections.required' => 'Seleccione mínimo una colleción'
         ];
     }
 }

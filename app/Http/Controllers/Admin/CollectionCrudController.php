@@ -29,6 +29,8 @@ class CollectionCrudController extends CrudController
         CRUD::setModel(\App\Models\Collection::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/collection');
         CRUD::setEntityNameStrings('collection', 'collections');
+
+        $this->crud->denyAccess('delete');
     }
 
     /**
@@ -42,6 +44,9 @@ class CollectionCrudController extends CrudController
         $this->addColumns();
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
+        $this->crud->removeButton('delete');
+
+        $this->crud->removeAllButtons();
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

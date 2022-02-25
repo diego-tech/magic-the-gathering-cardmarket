@@ -60,6 +60,7 @@ class CardCrudController extends CrudController
         CRUD::setValidation(CardRequest::class);
 
         $this->addFields();
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -100,11 +101,8 @@ class CardCrudController extends CrudController
             [
                 'label'     => "Colecciones",
                 'type'      => 'select_multiple',
-                'name'      => 'collections', // the method that defines the relationship in your Model
-
-                // optional
+                'name'      => 'collections',
                 'entity'    => 'collections',
-                'model'     => "App\Models\Collection",
                 'attribute' => 'name',
                 'pivot'     => true,
             ]

@@ -36,9 +36,6 @@ class Collection extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function cards() {
-        return $this->belongsToMany(Card::class);
-    }
 
     /*
     |--------------------------------------------------------------------------
