@@ -13,10 +13,11 @@ class CreateDecksTable extends Migration
      */
     public function up()
     {
-        Schema::create('decks', function (Blueprint $table) {
+        Schema::create('card_collection', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('card_id')->constrained();
-            $table->foreignId('collection_id')->constrained();
+            $table->foreignId('card_id')->constrained('cards')->onDelete('cascade');
+            $table->foreignId('collection_id')->constrained('collections')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateDecksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('decks');
+        Schema::dropIfExists('card_collection');
     }
 }

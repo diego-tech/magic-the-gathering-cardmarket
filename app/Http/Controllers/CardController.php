@@ -29,7 +29,7 @@ class CardController extends Controller
                 [
                     'name' => 'required|string|max:255',
                     'description' => 'required|string|max:255',
-                    'collection' => 'required|int|exists:decks,collection_id'
+                    'collection' => 'required|int|exists:card_collection,collection_id'
                 ],
                 [
                     'name.required' => 'Nombre de Carta Obligatorio',
