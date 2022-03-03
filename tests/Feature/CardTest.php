@@ -45,7 +45,7 @@ class CardTest extends TestCase
             "collection" => null
         ];
 
-        $api_token = '10|lkCjeus4eUXaaTn648kbl0uAeP7iZlkmJ0axWsvE';
+        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
@@ -71,7 +71,7 @@ class CardTest extends TestCase
             "collection" => 4
         ];
 
-        $api_token = '10|lkCjeus4eUXaaTn648kbl0uAeP7iZlkmJ0axWsvE';
+        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
@@ -97,7 +97,7 @@ class CardTest extends TestCase
             "collection" => 1
         ];
 
-        $api_token = '10|lkCjeus4eUXaaTn648kbl0uAeP7iZlkmJ0axWsvE';
+        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
