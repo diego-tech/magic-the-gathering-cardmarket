@@ -27,6 +27,11 @@ class UserTest extends TestCase
         ]);
     }
 
+    /**
+     * Test if user data not match
+     * 
+     * @return void
+     */
     public function test_dataNotMatch() {
         $data = [
             "name" => "test",
@@ -41,6 +46,11 @@ class UserTest extends TestCase
         ]);
     }
 
+    /**
+     * Test if user data match
+     * 
+     * @return void
+     */
     public function test_dataMatch() {
         $data = [
             "name" => "test",

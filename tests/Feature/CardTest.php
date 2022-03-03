@@ -10,7 +10,7 @@ use Tests\TestCase;
 class CardTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Test if user is not authenticated
      *
      * @return void
      */
@@ -32,6 +32,11 @@ class CardTest extends TestCase
         $response->assertStatus(401);
     }
 
+    /**
+     * Test if no data is entered
+     *
+     * @return void
+     */
     public function test_noData()
     {
         $data = [
@@ -53,7 +58,13 @@ class CardTest extends TestCase
         ]);
     }
 
-    public function test_badCollectionId() {
+    /**
+     * Test if collection id is incorrect
+     * 
+     * @return void
+     */
+    public function test_badCollectionId()
+    {
         $data = [
             "name" => "Carta Test",
             "description" => "Esto es una carta de test",
@@ -73,7 +84,13 @@ class CardTest extends TestCase
         ]);
     }
 
-    public function test_allDataOk() {
+    /**
+     * Test if all card data is correct
+     * 
+     * @return void
+     */
+    public function test_allDataOk()
+    {
         $data = [
             "name" => "Carta Test",
             "description" => "Esto es una carta de test",
