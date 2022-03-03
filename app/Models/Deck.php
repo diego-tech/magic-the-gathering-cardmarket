@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Deck extends Model
 {
     use HasFactory;
+    protected $table = "card_collection";
 }
