@@ -29,6 +29,6 @@ class CreateDecksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('decks');
+        Schema::dropIfExists('card_collection');
     }
 }
