@@ -13,17 +13,19 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_userNoExists() {
+    public function test_userNoExists()
+    {
         $data = [
-          "name" => "Manolo",
-          "password" => "Manolo12345."
+            "name" => "Manolo",
+            "password" => "Manolo12345."
         ];
 
         $response = $this->postJson('/api/login', $data);
 
-        $response->assertStatus(404)->assertJson([
-            'status' => 0,
-            'msg' => "Usuario No Registrado"
+        $response->assertStatus(404)->assertJsonStructure([
+            'status',
+            'data',
+            'msg'
         ]);
     }
 
@@ -32,7 +34,8 @@ class UserTest extends TestCase
      * 
      * @return void
      */
-    public function test_dataNotMatch() {
+    public function test_dataNotMatch()
+    {
         $data = [
             "name" => "test",
             "password" => "Prueba12345."
@@ -40,9 +43,10 @@ class UserTest extends TestCase
 
         $response = $this->postJson('/api/login', $data);
 
-        $response->assertStatus(401)->assertJson([
-            'status' => 0,
-            'msg' => 'Nombre o Contraseña incorrectos'
+        $response->assertStatus(401)->assertJsonStructure([
+            'status',
+            'data',
+            'msg'
         ]);
     }
 
@@ -51,7 +55,8 @@ class UserTest extends TestCase
      * 
      * @return void
      */
-    public function test_dataMatch() {
+    public function test_dataMatch()
+    {
         $data = [
             "name" => "test",
             "password" => "Test12345."
@@ -59,9 +64,12 @@ class UserTest extends TestCase
 
         $response = $this->postJson('/api/login', $data);
 
-        $response->assertStatus(200)->assertJson([
-            'status' => 1,
-            'msg' => 'Sesión Iniciada Correctamente'
+        $response->assertStatus(200)->assertJsonStructure([
+            'status',
+            'data' => [
+                'token',
+            ],
+            'msg'
         ]);
     }
 }
