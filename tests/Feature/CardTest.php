@@ -29,7 +29,10 @@ class CardTest extends TestCase
             'Accept' => 'application/json'
         ])->postJson('/api/registerCard', $data);
 
-        $response->assertStatus(401);
+        $response->assertStatus(401)->assertJsonStructure([
+            'status',
+            'msg'
+        ]);
     }
 
     /**
@@ -45,16 +48,23 @@ class CardTest extends TestCase
             "collection" => null
         ];
 
-        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
+        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
             'Accept' => 'application/json'
         ])->postJson('/api/registerCard', $data);
 
-        $response->assertStatus(400)->assertJson([
-            'status' => 0,
-            'msg' => 'Ha ocurrido un error.'
+        $response->assertStatus(400)->assertJsonStructure([
+            'status',
+            'data' => [
+                'errors' => [
+                    'name',
+                    'description',
+                    'collection'
+                ]
+            ],
+            'msg'
         ]);
     }
 
@@ -71,16 +81,21 @@ class CardTest extends TestCase
             "collection" => 4
         ];
 
-        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
+        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
             'Accept' => 'application/json'
         ])->postJson('/api/registerCard', $data);
 
-        $response->assertStatus(400)->assertJson([
-            'status' => 0,
-            'msg' => 'Ha ocurrido un error.'
+        $response->assertStatus(400)->assertJsonStructure([
+            'status',
+            'data' => [
+                'errors' => [
+                    'collection'
+                ]
+            ],
+            'msg'
         ]);
     }
 
@@ -97,16 +112,17 @@ class CardTest extends TestCase
             "collection" => 1
         ];
 
-        $api_token = '13|wsMTOFGL9clKkA1jQgcFHR8Sfvc4HruZ9OYNOBYL';
+        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
             'Accept' => 'application/json'
         ])->postJson('/api/registerCard', $data);
 
-        $response->assertStatus(200)->assertJson([
-            'status' => 1,
-            'msg' => 'Carta Guardada Correctamente'
+        $response->assertStatus(200)->assertJsonStructure([
+            'status',
+            'data',
+            'msg'
         ]);
     }
 }

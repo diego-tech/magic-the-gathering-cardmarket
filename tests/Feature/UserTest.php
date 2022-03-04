@@ -55,21 +55,21 @@ class UserTest extends TestCase
      * 
      * @return void
      */
-    public function test_dataMatch()
-    {
-        $data = [
-            "name" => "test",
-            "password" => "Test12345."
-        ];
+    // public function test_dataMatch()
+    // {
+    //     $data = [
+    //         "name" => "test",
+    //         "password" => "Test12345."
+    //     ];
 
-        $response = $this->postJson('/api/login', $data);
+    //     $response = $this->postJson('/api/login', $data);
 
-        $response->assertStatus(200)->assertJsonStructure([
-            'status',
-            'data' => [
-                'token',
-            ],
-            'msg'
-        ]);
-    }
+    //     $response->assertStatus(200)->assertJsonStructure([
+    //         'status',
+    //         'data' => [
+    //             'token',
+    //         ],
+    //         'msg'
+    //     ]);
+    // }
 }
