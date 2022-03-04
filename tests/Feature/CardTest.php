@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class CardTest extends TestCase
@@ -48,7 +45,7 @@ class CardTest extends TestCase
             "collection" => null
         ];
 
-        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
+        $api_token = '31|tolGJIfGLKjP78VLyM7bHpOkbEgPxcf5DiOkKQBa';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
@@ -81,7 +78,7 @@ class CardTest extends TestCase
             "collection" => 4
         ];
 
-        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
+        $api_token = '31|tolGJIfGLKjP78VLyM7bHpOkbEgPxcf5DiOkKQBa';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
@@ -112,7 +109,7 @@ class CardTest extends TestCase
             "collection" => 1
         ];
 
-        $api_token = '27|B83ErcVc0zbCisVgsM8WYGN8mo8xLqcDEX0UO2xw';
+        $api_token = '31|tolGJIfGLKjP78VLyM7bHpOkbEgPxcf5DiOkKQBa';
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $api_token,
