@@ -227,6 +227,14 @@ class AuthController extends Controller
                 $response['status'] = 1;
 
                 return response()->json($response, 200);
+            } else if ($dbUser) {
+                $token = $user->createToken('auth_token')->plainTextToken;
+
+                $response['msg'] = "Sesión iniciada correctamente";
+                $response['token'] = $token;
+                $response['status'] = 1;
+
+                return response()->json($response, 200);
             } else {
                 $response['msg'] = "Ha Ocurrido un Error";
                 $response['status'] = 0;
