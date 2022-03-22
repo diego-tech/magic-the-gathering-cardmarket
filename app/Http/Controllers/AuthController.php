@@ -228,7 +228,7 @@ class AuthController extends Controller
 
                 return response()->json($response, 200);
             } else if ($dbUser) {
-                $token = $user->createToken('auth_token')->plainTextToken;
+                $token = $dbUser->createToken('auth_token')->plainTextToken;
 
                 $response['msg'] = "Sesión iniciada correctamente";
                 $response['token'] = $token;
